@@ -14,3 +14,10 @@ lint:
   stage: test
   script:
     - npm run lint
+
+unitTest:
+  only:
+    - branches
+  stage: test
+  script:
+    - npm run test:unit
