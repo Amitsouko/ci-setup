@@ -1,1 +1,9 @@
-.gitlab-ci.yml
+image: node
+
+before_script:
+  - npm install
+
+lint:
+  stage: test
+  script:
+    - npm run lint
