@@ -21,3 +21,16 @@ unitTest:
   stage: test
   script:
     - npm run test:unit
+
+e2e:
+  image: cypress/base:10
+  only:
+    - branches
+  stage: test
+  script:
+    - npm run test:e2e:headless
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - tests/e2e/screenshots
+      - tests/e2e/videos
