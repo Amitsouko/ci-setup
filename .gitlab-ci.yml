@@ -4,6 +4,8 @@ before_script:
   - npm install
 
 lint:
+  only:
+    - branches
   stage: test
   script:
     - npm run lint
