@@ -3,13 +3,14 @@ image: node
 before_script:
   - npm install
 
+cache:
+  paths:
+    - node_modules/
+  key: "$CI_COMMIT_REF_NAME"
+
 lint:
   only:
     - branches
   stage: test
   script:
     - npm run lint
-  cache:
-    paths:
-      - node_modules/
-    key: "$CI_COMMIT_REF_NAME"
