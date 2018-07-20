@@ -19,7 +19,7 @@ pipeline {
                 lint: {
                     echo "Lint tests"
                     sh 'npm run lint'
-                }
+                },
                 unit: {
                     echo "Unit tests"
                     sh 'npm run test:unit'
