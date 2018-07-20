@@ -6,9 +6,11 @@ pipeline {
 
   }
   stages {
-    stage('test') {
+    stage('build') {
       steps {
-        echo 'tbjzfze'
+        echo "Branch is ${env.BRANCH_NAME}..."
+        echo "Performing npm build..."
+        sh 'npm install'
       }
     }
   }
