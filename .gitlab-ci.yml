@@ -1,1 +1,36 @@
-.gitlab-ci.yml
+image: node
+
+before_script:
+  - npm install
+
+cache:
+  paths:
+    - node_modules/
+  key: "$CI_COMMIT_REF_NAME"
+
+lint:
+  only:
+    - branches
+  stage: test
+  script:
+    - npm run lint
+
+unitTest:
+  only:
+    - branches
+  stage: test
+  script:
+    - npm run test:unit
+
+e2e:
+  image: cypress/base:10
+  only:
+    - branches
+  stage: test
+  script:
+    - npm run test:e2e:headless
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - tests/e2e/screenshots
+      - tests/e2e/videos
