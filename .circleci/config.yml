@@ -23,7 +23,7 @@ jobs:
 
       - save_cache:
           paths:
-            - node_modules
+            - ~/.cache
           key: v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
 
   test:
@@ -40,11 +40,39 @@ jobs:
           name: lint
           command: yarn lint
 
+  e2e:
+    working_directory: ~/app
+    docker:
+      - image: cypress/base:8
+    steps:
+      - checkout
+      - *restore_node_modules
+      - run:
+          name: yarn install --frozen-lockfile
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          key: v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - ~/.cache
+      - run:
+          name: e2e
+          command: npm run test:e2e:headless
+      - store_artifacts:
+          path: tests/e2e/videos
+          destination: video
+      - store_artifacts:
+          path: tests/e2e/screenshots
+          destination: screenshot
+
+
 workflows:
   version: 2
   build_and_test:
     jobs:
       - build
       - test:
+          requires:
+            - build
+      - e2e:
           requires:
             - build
